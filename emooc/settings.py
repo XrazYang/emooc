@@ -35,6 +35,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.users',
+    'apps.organization',
+    'apps.operation',
+    'apps.courses'
 ]
 
 MIDDLEWARE = [
@@ -115,3 +119,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)  # 本地开发静态文件配置
+# STATIC_ROOT = os.path.join(BASE_DIR, '/static/') # 部署到生产环境中
