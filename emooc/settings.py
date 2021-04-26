@@ -29,16 +29,18 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    'django.contrib.admin',  # Django 自带的后台管理系统
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.users',
-    'apps.organization',
-    'apps.operation',
-    'apps.courses'
+    'apps.users.apps.UsersConfig',
+    'apps.organization.apps.OrganizationConfig',
+    'apps.operation.apps.OperationConfig',
+    'apps.courses.apps.CoursesConfig',
+    'crispy_forms',
+    'xadmin',
 ]
 
 MIDDLEWARE = [
