@@ -16,11 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from apps.users import urls as users_urls
+from django.views.generic import TemplateView
 
 import xadmin
 
 urlpatterns = [
-    path('', include(users_urls)),
-    path('admin/', admin.site.urls),
+    # path('', include(users_urls)),
+    # path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
+    path('', TemplateView.as_view(template_name='index.html')),
+    path('login/', TemplateView.as_view(template_name='login.html'), name='login'),
+    path('register/', TemplateView.as_view(template_name='register.html'), name='register'),
 ]
