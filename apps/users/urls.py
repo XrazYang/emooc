@@ -5,8 +5,10 @@
 # @Project    :   emooc
 
 from django.urls import path
-from .views import index
+from .views import LoginView, RegisterView, LogoutView
 
 urlpatterns = [
-    path('', index, name='index'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('register/', RegisterView.as_view(), name='register'),
 ]
