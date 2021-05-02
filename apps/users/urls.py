@@ -12,6 +12,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('danamic_login/', DynamicLoginView.as_view(), name='danamic_login'),
     path('login/', LoginView.as_view(), name='login'),
-    path('register/', RegisterView.as_view(), name='register'),
+    path('register/', csrf_exempt(RegisterView.as_view()), name='register'),
     path('send_sms/', csrf_exempt(SendSmsView.as_view()), name="send_sms"),
 ]
