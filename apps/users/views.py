@@ -4,13 +4,59 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 
-from apps.users.forms import LoginForm, DynamicLoginForm
+from apps.users.forms import LoginForm, DynamicLoginForm, DynamicLoginPostForm
+from apps.users.models import UserProfile
 from apps.utils.random_str import generate_random
 from apps.utils.yunpian import send_single_sms
 from emooc.settings import yp_apikey, REDIS_HOST, REDIS_PORT
 import redis
 
 
+# 手机动态登录
+class DynamicLoginView(View):
+    # def get(self, request, *args, **kwargs):
+    #     if request.user.is_authenticated:
+    #         return HttpResponseRedirect(reverse("index"))
+    #     next = request.GET.get("next", "")
+    #     login_form = DynamicLoginForm()
+    #     banners = Banner.objects.all()[:3]
+    #     return render(request, "login.html", {
+    #         "login_form": login_form,
+    #         "next": next,
+    #         "banners": banners
+    #     })
+
+    def post(self, request, *args, **kwargs):
+        login_form = DynamicLoginPostForm(request.POST)
+        dynamic_login = True
+        # banners = Banner.objects.all()[:3]
+        if login_form.is_valid():
+            # 没有注册账号依然可以登录
+            mobile = login_form.cleaned_data["mobile"]
+            existed_users = UserProfile.objects.filter(mobile=mobile)
+            if existed_users:
+                user = existed_users[0]
+            else:
+                # 新建一个用户
+                user = UserProfile(username=mobile)
+                password = generate_random(10, 2)
+                user.set_password(password)
+                user.mobile = mobile
+                user.save()
+            login(request, user)
+            # next = request.GET.get("next", "")
+            # if next:
+            #     return HttpResponseRedirect(next)
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            d_form = DynamicLoginForm()
+            return render(request, "login.html", {"login_form": login_form,
+                                                  "d_form": d_form,
+                                                  # "banners": banners,
+                                                  "dynamic_login": dynamic_login})
+
+
+# 发送手机动态验证码
 class SendSmsView(View):
     def post(self, request, *args, **kwargs):
         send_sms_form = DynamicLoginForm(request.POST)
@@ -23,13 +69,14 @@ class SendSmsView(View):
             if re_json["code"] == 0:
                 re_dict["status"] = "success"
                 r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=0, charset="utf8", decode_responses=True)
-                r.set(str(mobile), code)
+                r.set(str(mobile), '1234')
                 r.expire(str(mobile), 60 * 5)  # 设置验证码五分钟过期
             else:
                 re_dict["msg"] = re_json["msg"]
         else:
             for key, value in send_sms_form.errors.items():
                 re_dict[key] = value[0]
+        print(re_dict)
 
         return JsonResponse(re_dict)
 

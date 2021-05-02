@@ -11,20 +11,29 @@ import json
 
 def send_single_sms(apikey, code, mobile):
     # 发送单条短信
-    url = "https://sms.yunpian.com/v2/sms/single_send.json"
-    text = "【Emooc在线网】您的验证码是{}。如非本人操作，请忽略本短信".format(code)
-
-    res = requests.post(url, data={
-        "apikey": apikey,
-        "mobile": mobile,
-        "text": text
-    })
-    re_json = json.loads(res.text)
+    # url = "https://sms.yunpian.com/v2/sms/single_send.json"
+    # text = "【Emooc在线网】您的验证码是{}。如非本人操作，请忽略本短信".format(code)
+    #
+    # res = requests.post(url, data={
+    #     "apikey": apikey,
+    #     "mobile": mobile,
+    #     "text": text
+    # })
+    # re_json = json.loads(res.text)
+    re_json = {
+        "code": 0,
+        "msg": "发送成功",
+        "count": 1,
+        "fee": 0.05,
+        "unit": "RMB",
+        "mobile": "13200000000",
+        "sid": 3310228982
+    }
     return re_json
 
 
 if __name__ == "__main__":
-    res_json = send_single_sms("8658a93161922fe6e27974372f12d8f9", "123456", "17608728477")
+    res_json = send_single_sms("8658a93161922fe6e27974372f12d8f9", "1234", "17608728477")
 
     code = res_json["code"]
     msg = res_json["msg"]
