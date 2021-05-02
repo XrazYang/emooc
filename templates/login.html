@@ -98,19 +98,19 @@
                       action="{% url 'danamic_login' %}" id="mobile_register_form"
                       autocomplete="off" method="post" id="form2">
                     {% csrf_token %}
-                    <div class="form-group marb20">
+                    <div class="form-group marb20 {% if login_form.errors.mobile %} errorput{% endif %}">
                         <input id="jsRegMobile" value="{{ login_form.mobile.value | default_if_none:'' }}" name="mobile"
                                type="text"
                                placeholder="请输入您的手机号码">
                     </div>
 
-                    <div class="form-group marb20 blur" id="jsRefreshCode">
+                    <div class="form-group marb20 blur " id="jsRefreshCode">
                         {{ dynamic_login_form.captcha }}
                         {{ d_form.captcha }}
                     </div>
 
                     <div class="clearfix">
-                        <div class="form-group marb8 verify-code">
+                        <div class="form-group marb8 verify-code {% if login_form.errors.code %} errorput{% endif %}">
                             <input id="jsPhoneRegCaptcha" value="{{ login_form.code.value }}" name="code" type="text"
                                    placeholder="输入手机验证码">
                         </div>
