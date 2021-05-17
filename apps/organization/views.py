@@ -7,7 +7,10 @@ from apps.organization.models import CourseOrg, City
 
 class OrgView(View):
     def get(self, request, *args, **kwargs):
-        return render(request, 'org-list.html')
+        all_orgs = CourseOrg.objects.all()
+        org_nums = len(all_orgs)
+        all_citys = City.objects.all()
+        return render(request, 'org-list.html', {"all_orgs": all_orgs, 'org_nums': org_nums, 'all_citys': all_citys})
         # 从数据库中获取数据
         # all_orgs = CourseOrg.objects.all()
         # all_citys = City.objects.all()

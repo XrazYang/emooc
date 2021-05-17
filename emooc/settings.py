@@ -68,6 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -129,8 +130,6 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)  # 本地开发静态文�
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # 上传文件保存位置
-
-
 
 # 云片网相关设置
 yp_apikey = "8658a93161922fe6e27974372f12d8f9"

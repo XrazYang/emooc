@@ -95,7 +95,7 @@
 
 
                 <form class="tab-form {% if dynamic_login %} {% else %} hide {% endif %}"
-                      action="{% url 'danamic_login' %}" id="mobile_register_form"
+                      action="{% url 'dynamic_login' %}" id="mobile_register_form"
                       autocomplete="off" method="post" id="form2">
                     {% csrf_token %}
                     <div class="form-group marb20 {% if login_form.errors.mobile %} errorput{% endif %}">

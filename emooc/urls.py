@@ -13,14 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
+# from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from django.conf.urls import url
+from django.views.static import serve
 
 import xadmin
 
 from apps.users import urls as users_urls
 from apps.organization import urls as org_urls
+from emooc.settings import MEDIA_ROOT
 
 urlpatterns = [
     path('', include(users_urls)),
@@ -29,6 +32,5 @@ urlpatterns = [
     path('xadmin/', xadmin.site.urls),
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
     path('captcha/', include('captcha.urls')),
-    # path('login/', TemplateView.as_view(template_name='login.html'), name='login'),
-    # path('register/', TemplateView.as_view(template_name='register.html'), name='register'),
+    url(r'media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),  # 配置上传文件访问
 ]

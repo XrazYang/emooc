@@ -69,7 +69,7 @@ class SendSmsView(View):
             if re_json["code"] == 0:
                 re_dict["status"] = "success"
                 r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=0, charset="utf8", decode_responses=True)
-                r.set(str(mobile), '1234')
+                r.set(str(mobile), code)
                 r.expire(str(mobile), 60 * 5)  # 设置验证码五分钟过期
             else:
                 re_dict["msg"] = re_json["msg"]

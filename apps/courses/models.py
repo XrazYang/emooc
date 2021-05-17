@@ -1,7 +1,7 @@
 from django.db import models
 
 from apps.users.models import BaseModel
-from apps.organization.models import Teacher
+from apps.organization.models import Teacher, CourseOrg
 
 '''
     表设计： 实体与关系
@@ -31,9 +31,10 @@ class Course(BaseModel):
 
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name="讲师")
 
-    # course_org = models.ForeignKey(CourseOrg, null=True, blank=True, on_delete=models.CASCADE, verbose_name="课程机构")
-    #
-    # is_classics = models.BooleanField(default=False, verbose_name="是否经典")
+    course_org = models.ForeignKey(CourseOrg, null=True, blank=True, on_delete=models.CASCADE, verbose_name="课程机构")
+
+    is_classics = models.BooleanField(default=False, verbose_name="是否经典")
+
     #
     # is_banner = models.BooleanField(default=False, verbose_name="是否广告位")
 

@@ -36,9 +36,9 @@ class CourseOrg(BaseModel):
 
     city = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name="所在城市")
 
-    # def courses(self):
-    #     courses = self.course_set.filter(is_classics=True)[:3]
-    #     return courses
+    def courses(self):
+        course = self.course_set.filter(is_classics=True)[:3]
+        return course
 
     class Meta:
         verbose_name = "课程机构"
