@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'xadmin',
     'captcha',
+    'pure_pagination',
 ]
 
 MIDDLEWARE = [
@@ -137,3 +138,10 @@ yp_apikey = "8658a93161922fe6e27974372f12d8f9"
 # redis相关配置
 REDIS_HOST = "111.229.178.124"
 REDIS_PORT = 6379
+
+# 分页设置
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 10,
+    'MARGIN_PAGES_DISPLAYED': 2,
+    'SHOW_FIRST_PAGE_WHEN_INVALID': True,
+}
