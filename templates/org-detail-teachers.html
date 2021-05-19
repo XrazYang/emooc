@@ -28,7 +28,7 @@
                     {% if request.user.is_authenticated %}
                         <div class="personal">
                             <dl class="user fr">
-                                <dd>bobby<img class="down fr" src="/static/images/top_down.png"/></dd>
+                                <dd>{{ request.user }}<img class="down fr" src="/static/images/top_down.png"/></dd>
                                 <dt><img width="20" height="20" src="/static/media/image/2016/12/default_big_14.png"/>
                                 </dt>
                             </dl>
@@ -75,9 +75,8 @@
                             <span class="key">5.0</span>
                         </p>
                     </div>
-                    <div class="btn fr collectionbtn  notlogin
-                 " data-favid="22" data-fav-type="1">
-                        收藏
+                    <div class="btn fr collectionbtn  notlogin" data-favid="22" data-fav-type="1">
+                        {% if has_fav %}已收藏{% else %}收藏{% endif %}
                     </div>
 
                 </div>
@@ -181,7 +180,7 @@
             data: {'fav_id': fav_id, 'fav_type': fav_type},
             async: true,
             beforeSend: function (xhr, settings) {
-                xhr.setRequestHeader("X-CSRFToken", "5I2SlleZJOMUX9QbwYLUIAOshdrdpRcy");
+                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
             },
             success: function (data) {
                 if (data.status == 'fail') {
@@ -200,7 +199,7 @@
 
     $(document).ready(function () {
         $('.collectionbtn').on('click', function () {
-            add_fav($(this), 1, 2);
+            add_fav($(this), {{ course_org.id }}, 2);
         });
     });
 

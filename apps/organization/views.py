@@ -17,15 +17,15 @@ class OrgDescView(View):
         course_org.click_nums += 1
         course_org.save()
 
-        # has_fav = False
-        # if request.user.is_authenticated:
-        #     if UserFavorite.objects.filter(user=request.user, fav_id=course_org.id, fav_type=2):
-        #         has_fav = True
+        has_fav = False
+        if request.user.is_authenticated:
+            if UserFavorite.objects.filter(user=request.user, fav_id=course_org.id, fav_type=2):
+                has_fav = True
 
         return render(request, "org-detail-desc.html", {
             "course_org": course_org,
             "current_page": current_page,
-            # "has_fav": has_fav
+            "has_fav": has_fav
         })
 
 
@@ -38,10 +38,10 @@ class OrgCourseView(View):
 
         all_courses = course_org.course_set.all()
 
-        # has_fav = False
-        # if request.user.is_authenticated:
-        #     if UserFavorite.objects.filter(user=request.user, fav_id=course_org.id, fav_type=2):
-        #         has_fav = True
+        has_fav = False
+        if request.user.is_authenticated:
+            if UserFavorite.objects.filter(user=request.user, fav_id=course_org.id, fav_type=2):
+                has_fav = True
 
         # 对课程机构数据进行分页
         try:
@@ -56,7 +56,7 @@ class OrgCourseView(View):
             "all_courses": courses,
             "course_org": course_org,
             "current_page": current_page,
-            # "has_fav":has_fav
+            "has_fav": has_fav
         })
 
 
@@ -67,17 +67,17 @@ class OrgTeacherView(View):
         course_org.click_nums += 1
         course_org.save()
 
-        # has_fav = False
-        # if request.user.is_authenticated:
-        #     if UserFavorite.objects.filter(user=request.user, fav_id=course_org.id, fav_type=2):
-        #         has_fav = True
+        has_fav = False
+        if request.user.is_authenticated:
+            if UserFavorite.objects.filter(user=request.user, fav_id=course_org.id, fav_type=2):
+                has_fav = True
 
         all_teachers = course_org.teacher_set.all()
         return render(request, "org-detail-teachers.html", {
             "all_teachers": all_teachers,
             "course_org": course_org,
             "current_page": current_page,
-            # "has_fav": has_fav
+            "has_fav": has_fav
         })
 
 
@@ -88,10 +88,10 @@ class OrgHomeView(View):
         course_org.click_nums += 1
         course_org.save()
 
-        # has_fav = False
-        # if request.user.is_authenticated:
-        #     if UserFavorite.objects.filter(user=request.user, fav_id=course_org.id, fav_type=2):
-        #         has_fav = True
+        has_fav = False
+        if request.user.is_authenticated:
+            if UserFavorite.objects.filter(user=request.user, fav_id=course_org.id, fav_type=2):
+                has_fav = True
 
         all_courses = course_org.course_set.all()[:3]
         all_teachers = course_org.teacher_set.all()[:1]
@@ -101,7 +101,7 @@ class OrgHomeView(View):
             "all_teachers": all_teachers,
             "course_org": course_org,
             "current_page": current_page,
-            # "has_fav": has_fav
+            "has_fav": has_fav
         })
 
 

@@ -29,6 +29,7 @@ urlpatterns = [
     path('', include(users_urls)),
     # path('', include(org_urls)),
     url(r'^org/', include(('apps.organization.urls', 'organization'), namespace='org')),
+    url(r'^op/', include(('apps.operation.urls', 'operation'), namespace='op')),
     # path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
