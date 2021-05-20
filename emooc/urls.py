@@ -22,7 +22,6 @@ from django.views.static import serve
 import xadmin
 
 from apps.users import urls as users_urls
-from apps.organization import urls as org_urls
 from emooc.settings import MEDIA_ROOT
 
 urlpatterns = [
@@ -30,6 +29,8 @@ urlpatterns = [
     # path('', include(org_urls)),
     url(r'^org/', include(('apps.organization.urls', 'organization'), namespace='org')),
     url(r'^op/', include(('apps.operation.urls', 'operation'), namespace='op')),
+    url(r'^course/', include(('apps.courses.urls', 'courses'), namespace='course')),
+
     # path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
     path('', TemplateView.as_view(template_name='index.html'), name='index'),

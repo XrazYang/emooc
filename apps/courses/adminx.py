@@ -6,7 +6,7 @@
 
 import xadmin
 
-from apps.courses.models import Course, Lesson, Video, CourseResource  # CourseTag,BannerCourse
+from apps.courses.models import Course, Lesson, Video, CourseResource, CourseTag  # CourseTag,BannerCourse
 
 
 # from xadmin.layout import Fieldset, Main, Side, Row
@@ -43,8 +43,14 @@ class VideoAdmin(object):
 
 class CourseResourceAdmin(object):
     list_display = ['course', 'name', 'file', 'add_time']
-    search_fields = ['course', 'name', 'file']
-    list_filter = ['course', 'name', 'file', 'add_time']
+    search_fields = ['course']
+    list_filter = ['course', 'tag', 'add_time']
+
+
+class CourseTagAdmin(object):
+    list_display = ['course', 'tag', 'add_time']
+    search_fields = ['course', 'tag', 'file']
+    list_filter = ['course', 'tag', 'add_time']
 
 
 #
@@ -147,6 +153,7 @@ xadmin.site.register(Course, CourseAdmin)
 xadmin.site.register(Lesson, LessonAdmin)
 xadmin.site.register(Video, VideoAdmin)
 xadmin.site.register(CourseResource, CourseResourceAdmin)
+xadmin.site.register(CourseTag, CourseTagAdmin)
 
 # xadmin.site.register(BannerCourse, BannerCourseAdmin)
 # xadmin.site.register(Course, NewCourseAdmin)

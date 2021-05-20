@@ -45,8 +45,8 @@ class Course(BaseModel):
     def __str__(self):
         return self.name
 
-    # def lesson_nums(self):
-    #     return self.lesson_set.all().count()
+    def lesson_nums(self):
+        return self.lesson_set.all().count()
     #
     # def show_image(self):
     #     from django.utils.safestring import mark_safe
@@ -57,8 +57,20 @@ class Course(BaseModel):
     # def go_to(self):
     #     from django.utils.safestring import mark_safe
     #     return mark_safe("<a href='/course/{}'>跳转</a>".format(self.id))
-    #
+    # 7
     # go_to.short_description = "跳转"
+
+
+class CourseTag(BaseModel):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="课程")
+    tag = models.CharField(verbose_name="标签", max_length=100, default="")
+
+    class Meta:
+        verbose_name = "课程标签"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.tag
 
 
 class Lesson(BaseModel):
