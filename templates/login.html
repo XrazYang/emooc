@@ -74,7 +74,8 @@
                     <h2 class="{% if dynamic_login %} active {% else %} {% endif %}">动态登录</h2>
                 </div>
 
-                <form class="tab-form {% if dynamic_login %} hide {% else %}  {% endif %}" action="{% url 'login' %}"
+                <form class="tab-form {% if dynamic_login %} hide {% else %}  {% endif %}"
+                      action="{% url 'login' %}?next={{ next }}"
                       method="post" autocomplete="off" id="form1">
                     {% csrf_token %}
                     <div class="form-group marb20 {% if login_form.errors.username %} errorput{% endif %}">
@@ -95,7 +96,7 @@
 
 
                 <form class="tab-form {% if dynamic_login %} {% else %} hide {% endif %}"
-                      action="{% url 'dynamic_login' %}" id="mobile_register_form"
+                      action="{% url 'dynamic_login' %}?next={{ next }}" id="mobile_register_form"
                       autocomplete="off" method="post" id="form2">
                     {% csrf_token %}
                     <div class="form-group marb20 {% if login_form.errors.mobile %} errorput{% endif %}">

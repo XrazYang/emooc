@@ -44,7 +44,7 @@ class VideoAdmin(object):
 class CourseResourceAdmin(object):
     list_display = ['course', 'name', 'file', 'add_time']
     search_fields = ['course']
-    list_filter = ['course', 'tag', 'add_time']
+    list_filter = ['course', 'name', 'add_time']
 
 
 class CourseTagAdmin(object):

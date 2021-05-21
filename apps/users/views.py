@@ -14,17 +14,17 @@ import redis
 
 # 手机动态登录
 class DynamicLoginView(View):
-    # def get(self, request, *args, **kwargs):
-    #     if request.user.is_authenticated:
-    #         return HttpResponseRedirect(reverse("index"))
-    #     next = request.GET.get("next", "")
-    #     login_form = DynamicLoginForm()
-    #     banners = Banner.objects.all()[:3]
-    #     return render(request, "login.html", {
-    #         "login_form": login_form,
-    #         "next": next,
-    #         "banners": banners
-    #     })
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(reverse("index"))
+        next = request.GET.get("next", "")
+        login_form = DynamicLoginForm()
+        # banners = Banner.objects.all()[:3]
+        return render(request, "login.html", {
+            "login_form": login_form,
+            "next": next,
+            # "banners": banners
+        })
 
     def post(self, request, *args, **kwargs):
         login_form = DynamicLoginPostForm(request.POST)
@@ -44,9 +44,9 @@ class DynamicLoginView(View):
                 user.mobile = mobile
                 user.save()
             login(request, user)
-            # next = request.GET.get("next", "")
-            # if next:
-            #     return HttpResponseRedirect(next)
+            next = request.GET.get("next", "")
+            if next:
+                return HttpResponseRedirect(next)
             return HttpResponseRedirect(reverse("index"))
         else:
             d_form = DynamicLoginForm()
@@ -93,8 +93,9 @@ class LoginView(View):
     def get(self, request):
         if request.user.is_authenticated:
             return HttpResponseRedirect(reverse('index'))
+        next = request.GET.get('next', "")
         dynamic_login_form = DynamicLoginForm()
-        return render(request, self.html_path, {'dynamic_login_form': dynamic_login_form})
+        return render(request, self.html_path, {'dynamic_login_form': dynamic_login_form, 'next': next})
 
     def post(self, request):
         login_form = LoginForm(request.POST)
@@ -104,7 +105,12 @@ class LoginView(View):
             user = authenticate(username=user_name, password=password)
             if user:
                 login(request, user)  # 已经完成cookie 和 session 的功能
-                return HttpResponseRedirect(reverse('index'))
+                next = request.GET.get('next', "")
+                print(next)
+                if next:
+                    return HttpResponseRedirect(next)
+                else:
+                    return HttpResponseRedirect(reverse('index'))
             else:
                 return render(request, self.html_path, {'msg': '用户名或密码错误', 'login_form': login_form})
         else:

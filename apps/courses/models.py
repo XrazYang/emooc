@@ -94,7 +94,7 @@ class Video(BaseModel):
     url = models.CharField(max_length=1000, verbose_name=u"访问地址")
 
     class Meta:
-        verbose_name = "视频"
+        verbose_name = "课程视频"
         verbose_name_plural = verbose_name
 
     def __str__(self):
