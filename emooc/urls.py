@@ -30,7 +30,6 @@ urlpatterns = [
     url(r'^org/', include(('apps.organization.urls', 'organization'), namespace='org')),
     url(r'^op/', include(('apps.operation.urls', 'operation'), namespace='op')),
     url(r'^course/', include(('apps.courses.urls', 'courses'), namespace='course')),
-    url(r'^teacher/', include(('apps.organization.urls', 'organization'), namespace='teacher')),
 
     # path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
