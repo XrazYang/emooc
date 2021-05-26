@@ -2,14 +2,38 @@ from django.shortcuts import render
 from django.views.generic.base import View
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, JsonResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 
-from apps.users.forms import LoginForm, DynamicLoginForm, DynamicLoginPostForm, RegisterPostForm, RegisterGetForm
+from apps.users.forms import LoginForm, DynamicLoginForm, DynamicLoginPostForm, RegisterPostForm, RegisterGetForm, \
+    UserInfoForm
 from apps.users.models import UserProfile
 from apps.utils.random_str import generate_random
 from apps.utils.yunpian import send_single_sms
 from emooc.settings import yp_apikey, REDIS_HOST, REDIS_PORT
 import redis
+
+
+class UserInfoView(LoginRequiredMixin, View):
+    login_url = "/login/"
+
+    def get(self, request, *args, **kwargs):
+        current_page = "info"
+        captcha_form = RegisterGetForm()
+        return render(request, "usercenter-info.html", {
+            "captcha_form": captcha_form,
+            "current_page": current_page
+        })
+
+    def post(self, request, *args, **kwargs):
+        user_info_form = UserInfoForm(request.POST, instance=request.user)
+        if user_info_form.is_valid():
+            user_info_form.save()
+            return JsonResponse({
+                "status": "success"
+            })
+        else:
+            return JsonResponse(user_info_form.errors)
 
 
 # 手机动态登录

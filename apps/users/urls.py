@@ -5,7 +5,8 @@
 # @Project    :   emooc
 
 from django.urls import path
-from .views import LoginView, RegisterView, LogoutView, SendSmsView, DynamicLoginView
+from django.conf.urls import url
+from .views import LoginView, RegisterView, LogoutView, SendSmsView, DynamicLoginView, UserInfoView
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
@@ -14,4 +15,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('register/', csrf_exempt(RegisterView.as_view()), name='register'),
     path('send_sms/', csrf_exempt(SendSmsView.as_view()), name="send_sms"),
+
+    url(r'^info/$', UserInfoView.as_view(), name='info'),
 ]
