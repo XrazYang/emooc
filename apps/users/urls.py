@@ -6,7 +6,8 @@
 
 from django.urls import path
 from django.conf.urls import url
-from .views import LoginView, RegisterView, LogoutView, SendSmsView, DynamicLoginView, UserInfoView
+from .views import LoginView, RegisterView, LogoutView, SendSmsView, DynamicLoginView, UserInfoView, UploadImageView, \
+    ChangePwdView, ChangeMobileView
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
@@ -17,4 +18,7 @@ urlpatterns = [
     path('send_sms/', csrf_exempt(SendSmsView.as_view()), name="send_sms"),
 
     url(r'^info/$', UserInfoView.as_view(), name='info'),
+    url(r'^image/upload/$', UploadImageView.as_view(), name='image'),
+    url(r'^update/pwd/$', ChangePwdView.as_view(), name='pwd'),
+    url(r'^update/mobile/$', ChangeMobileView.as_view(), name='mobile'),
 ]
