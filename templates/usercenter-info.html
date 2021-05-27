@@ -54,6 +54,9 @@
                         <a style="color:white" class="fr registerbtn" href="{% url 'register' %}">注册</a>
                         <a style="color:white" class="fr loginbtn" href="{% url 'login' %}">登录</a>
                     {% endif %}
+                    <a href="{% url 'users:mymessages' %}">
+                        <div class="msg-num"><span id="MsgNum">{{ user.unread_nums }}</span></div>
+                    </a>
                 </div>
             </div>
 
@@ -90,17 +93,17 @@
                     </a>
                 </li>
                 <li>
-                    <a href="usercenter-mycourse.html">
+                    <a href="{% url 'users:mycourses' %}">
                         我的课程
                     </a>
                 </li>
                 <li>
-                    <a href="usercenter-fav-course.html">
+                    <a href="{% url 'users:favorgs' %}">
                         我的收藏
                     </a>
                 </li>
                 <li>
-                    <a href="usercenter-message.html" style="position: relative;">
+                    <a href="{% url 'users:mymessages' %}" style="position: relative;">
                         我的消息
                     </a>
                 </li>

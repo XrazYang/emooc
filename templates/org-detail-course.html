@@ -23,65 +23,73 @@
             <div class="top">
                 <div class="wp">
                     <div class="fl">
-                        <p>联系方式：<b>17608728477</b></p>
-                    </div>
-                    {% if request.user.is_authenticated %}
-                        <div class="personal">
-                            <dl class="user fr">
-                                <dd>{{ request.user }}<img class="down fr" src="/static/images/top_down.png"/></dd>
-                                <dt><img width="20" height="20" src="/static/media/image/2016/12/default_big_14.png"/>
-                                </dt>
-                            </dl>
-                            <div class="userdetail">
-                                <dl>
-                                    <dt><img width="80" height="80"
-                                             src="/static/media/image/2016/12/default_big_14.png"/></dt>
+                        <div class="fl"><p>服务电话：<b>17608728477</b></p></div>
+                        <!--登录后跳转-->
+                        {% if user.is_authenticated %}
+                            <div class="personal">
+                                <dl class="user fr">
                                     <dd>
-                                        <h2>django</h2>
-                                        <p>bobby</p>
+                                        {% if user.nicke_name %}{{ user.nick_name }}{% else %}
+                                            {{ user.username }}{% endif %}<img
+                                            class="down fr"/>
                                     </dd>
+                                    <dt>
+                                        <img width="20" height="20" src="{{ user.head_image.url }}"/>
+                                    </dt>
                                 </dl>
-                                <div class="btn">
-                                    <a class="personcenter fl" href="usercenter-info.html">进入个人中心</a>
-                                    <a class="fr" href="{% url 'logout' %}">退出</a>
+                                <div class="userdetail">
+                                    <dl>
+                                        <dt><img width="80" height="80"
+                                                 src="{{ user.head_image.url }}"/></dt>
+                                        <dd>
+                                            <h2>{{ user.nick_name }}</h2>
+                                            <p>{{ user.username }}</p>
+                                        </dd>
+                                    </dl>
+                                    <div class="btn">
+                                        <a class="personcenter fl" href="{% url 'users:info' %}">进入个人中心</a>
+                                        <a class="fr" href="{% url 'logout' %}">退出</a>
+                                    </div>
                                 </div>
                             </div>
+                        {% else %}
+                            <a style="color:white" class="fr registerbtn" href="{% url 'register' %}">注册</a>
+                            <a style="color:white" class="fr loginbtn" href="{% url 'login' %}">登录</a>
+                        {% endif %}
+                        <a href="{% url 'users:mymessages' %}">
+                            <div class="msg-num"><span id="MsgNum">{{ user.unread_nums }}</span></div>
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="middle companyheader">
+                    <div class="wp">
+                        <img class="fl" style="width: 112px;height: 103px" src="{{ MEDIA_URL }}{{ course_org.image }}"/>
+                        <div class="head fl">
+                            <h1>
+                                {{ course_org.name }}
+                                {% if course_org.is_auth %}
+                                    <img src="/static/images/authentication.png"/>
+                                {% endif %}
+
+                                {% if course_org.is_gold %}
+                                    <img src="/static/images/gold.png"/>
+                                {% endif %}
+                            </h1>
+                            <p class="fl">
+                                <span class="fl" style="margin-top:8px;color:#848484;">推荐指数： </span>
+                                <span class="precision company-credit" data-star-scope="5.0"></span>
+                                <span class="key">5.0</span>
+                            </p>
                         </div>
-                    {% else %}
-                        <a style="color:white" class="fr registerbtn" href="{% url 'register' %}">注册</a>
-                        <a style="color:white" class="fr loginbtn" href="{% url 'login' %}">登录</a>
-                    {% endif %}
+                        <div class="btn fr collectionbtn  notlogin" data-favid="22" data-fav-type="1">
+                            {% if has_fav %}已收藏{% else %}收藏{% endif %}
+                        </div>
+
+                    </div>
                 </div>
             </div>
-
-
-            <div class="middle companyheader">
-                <div class="wp">
-                    <img class="fl" style="width: 112px;height: 103px" src="{{ MEDIA_URL }}{{ course_org.image }}"/>
-                    <div class="head fl">
-                        <h1>
-                            {{ course_org.name }}
-                            {% if course_org.is_auth %}
-                                <img src="/static/images/authentication.png"/>
-                            {% endif %}
-
-                            {% if course_org.is_gold %}
-                                <img src="/static/images/gold.png"/>
-                            {% endif %}
-                        </h1>
-                        <p class="fl">
-                            <span class="fl" style="margin-top:8px;color:#848484;">推荐指数： </span>
-                            <span class="precision company-credit" data-star-scope="5.0"></span>
-                            <span class="key">5.0</span>
-                        </p>
-                    </div>
-                    <div class="btn fr collectionbtn  notlogin" data-favid="22" data-fav-type="1">
-                        {% if has_fav %}已收藏{% else %}收藏{% endif %}
-                    </div>
-
-                </div>
-            </div>
-        </div>
     </header>
 </section>
 <section>
@@ -124,12 +132,12 @@
             <div class="brief group_list">
                 {% for course in all_courses.object_list %}
                     <div class="module1_5 box">
-                        <a class="comp-img-box" href="course-detail.html">
+                        <a class="comp-img-box" href="{% url 'course:detail' course.id %}">
 
                             <img width="214" height="195" src="{{ MEDIA_URL }}{{ course.image }}"/>
                         </a>
                         <div class="des">
-                            <a href="course-detail.html"><h2>{{ course.name }}</h2></a>
+                            <a href="{% url 'course:detail' course.id %}"><h2>{{ course.name }}</h2></a>
                             <span class="fl">课时：<i class="key">{{ course.learn_times }}</i></span>
                             <span class="fr">学习人数：{{ course.students }}</span>
                         </div>

@@ -32,3 +32,6 @@ class UserProfile(AbstractUser):
         if self.nick_name:
             return self.nick_name
         return self.username
+
+    def unread_nums(self):
+        return self.usermessage_set.filter(has_read=False).count()

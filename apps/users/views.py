@@ -4,14 +4,116 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
+from pure_pagination import Paginator, PageNotAnInteger
 
 from apps.users.forms import LoginForm, DynamicLoginForm, DynamicLoginPostForm, RegisterPostForm, RegisterGetForm, \
     UserInfoForm, UploadImageForm, ChangePwdForm, UpdateMobileForm
 from apps.users.models import UserProfile
+from apps.operation.models import UserCourse, UserFavorite, UserMessage
+from apps.organization.models import Teacher, CourseOrg
+from apps.courses.models import Course
 from apps.utils.random_str import generate_random
 from apps.utils.yunpian import send_single_sms
 from emooc.settings import yp_apikey, REDIS_HOST, REDIS_PORT
 import redis
+
+
+# class CustomAuth(ModelBackend):
+#     def authenticate(self, request, username=None, password=None, **kwargs):
+#         try:
+#             user = UserProfile.objects.get(Q(username=username) | Q(mobile=username))
+#             if user.check_password(password):
+#                 return user
+#         except Exception as e:
+#             return None
+
+
+def message_nums(request):
+    """
+    Add media-related context variables to the context.
+    """
+    if request.user.is_authenticated:
+        return {'unread_nums': request.user.usermessage_set.filter(has_read=False).count()}
+    else:
+        return {}
+
+
+class MyMessageView(LoginRequiredMixin, View):
+    login_url = "/login/"
+
+    def get(self, request, *args, **kwargs):
+        messages = UserMessage.objects.filter(user=request.user).order_by('-add_time')
+        for message in messages:
+            message.has_read = True
+            message.save()
+
+        # 对讲师数据进行分页
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        p = Paginator(messages, per_page=2, request=request)
+        messages = p.page(page)
+
+        return render(request, "usercenter-message.html", {
+            "messages": messages,
+        })
+
+
+class MyFavCourseView(LoginRequiredMixin, View):
+    login_url = "/login/"
+
+    def get(self, request, *args, **kwargs):
+        course_list = []
+        fav_courses = UserFavorite.objects.filter(user=request.user, fav_type=1)
+        for fav_course in fav_courses:
+            try:
+                course = Course.objects.get(id=fav_course.fav_id)
+                course_list.append(course)
+            except Course.DoesNotExist as e:
+                pass
+        return render(request, "usercenter-fav-course.html", {
+            "course_list": course_list,
+        })
+
+
+class MyFavTeacherView(LoginRequiredMixin, View):
+    login_url = "/login/"
+
+    def get(self, request, *args, **kwargs):
+        teacher_list = []
+        fav_teachers = UserFavorite.objects.filter(user=request.user, fav_type=3)
+        for fav_teacher in fav_teachers:
+            org = Teacher.objects.get(id=fav_teacher.fav_id)
+            teacher_list.append(org)
+        return render(request, "usercenter-fav-teacher.html", {
+            "teacher_list": teacher_list,
+        })
+
+
+class MyFavOrgView(LoginRequiredMixin, View):
+    login_url = "/login/"
+
+    def get(self, request, *args, **kwargs):
+        org_list = []
+        fav_orgs = UserFavorite.objects.filter(user=request.user, fav_type=2)
+        for fav_org in fav_orgs:
+            org = CourseOrg.objects.get(id=fav_org.fav_id)
+            org_list.append(org)
+        return render(request, "usercenter-fav-org.html", {
+            "org_list": org_list,
+        })
+
+
+class MyCourseView(LoginRequiredMixin, View):
+    login_url = "/login/"
+
+    def get(self, request, *args, **kwargs):
+        my_courses = UserCourse.objects.filter(user=request.user)
+        return render(request, "usercenter-mycourse.html", {
+            "my_courses": my_courses,
+        })
 
 
 class ChangeMobileView(LoginRequiredMixin, View):
