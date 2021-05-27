@@ -134,7 +134,7 @@
                 {% for course in all_courses %}
                     <div class="module1_5 box">
                         <a href="{% url 'course:detail' course.id %}"><img width="214"
-                                                          src="{{ MEDIA_URL }}{{ course.image }}"/></a>
+                                                                           src="{{ MEDIA_URL }}{{ course.image }}"/></a>
                         <div class="des">
                             <a href="{% url 'course:detail' course.id %}"><h2>{{ course.name }}</h2></a>
                             <span class="fl">课时：<i class="key">{{ course.learn_times }}</i></span>
@@ -167,7 +167,7 @@
                         <div class="right">
                             <div class="top">
                                 <div class="fl">
-                                    <a href=""><h1>{{ teacher.work_position }}</h1></a>
+                                    <h1>{{ teacher.work_position }}</h1>
                                     <span>工作年限：{{ teacher.work_years }}</span>
                                 </div>
                             </div>
