@@ -118,8 +118,6 @@
         </div>
     </div>
 </section>
-
-
 <section>
     <div class="wp">
         <div class="groupPurchase_detail detail">
@@ -156,10 +154,11 @@
                             <li><span class="pram word3">课程类别：</span><span title="">{{ course.category }}</span></li>
 
                             <li class="piclist"><span class="pram word4">学习用户：</span>
-                                <span class="pic"><img width="40" height="40"
-                                                       src="/static/media/image/2016/12/default_big_14.png"/></span>
+                                {% for user_course in course.usercourse_set.all|slice:3 %}
+                                    <span class="pic"><img width="40" height="40"
+                                                           src="{{ user_course.user.head_image.url }}"/></span>
+                                {% endfor %}
                             </li>
-
                         </ul>
                         <div class="btns">
                             <div class="btn colectgroupbtn" id="jsLeftBtn">
@@ -169,7 +168,6 @@
                                                     href="{% url 'course:lesson' course.id %}">开始学习</a></div>
                         </div>
                     </div>
-
                     <div class="group-share-box">
                         <div class="bdsharebuttonbox"
                              data-text="django开始了"

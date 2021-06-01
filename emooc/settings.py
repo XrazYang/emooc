@@ -26,8 +26,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Application definition
+# 自定义验证模块
+AUTHENTICATION_BACKENDS = [
+    'apps.users.views.CustomAuth'
+]
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',  # Django 自带的后台管理系统
     'django.contrib.auth',

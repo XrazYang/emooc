@@ -4,7 +4,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
+from django.contrib.auth.backends import ModelBackend
+from django.db.models import Q
+
 from pure_pagination import Paginator, PageNotAnInteger
+import redis
 
 from apps.users.forms import LoginForm, DynamicLoginForm, DynamicLoginPostForm, RegisterPostForm, RegisterGetForm, \
     UserInfoForm, UploadImageForm, ChangePwdForm, UpdateMobileForm
@@ -15,17 +19,17 @@ from apps.courses.models import Course
 from apps.utils.random_str import generate_random
 from apps.utils.yunpian import send_single_sms
 from emooc.settings import yp_apikey, REDIS_HOST, REDIS_PORT
-import redis
 
 
-# class CustomAuth(ModelBackend):
-#     def authenticate(self, request, username=None, password=None, **kwargs):
-#         try:
-#             user = UserProfile.objects.get(Q(username=username) | Q(mobile=username))
-#             if user.check_password(password):
-#                 return user
-#         except Exception as e:
-#             return None
+# 子定义用户验证模块
+class CustomAuth(ModelBackend):
+    def authenticate(self, request, username=None, password=None, **kwargs):
+        try:
+            user = UserProfile.objects.get(Q(username=username) | Q(mobile=username))
+            if user.check_password(password):
+                return user
+        except Exception as e:
+            return None
 
 
 def message_nums(request):
