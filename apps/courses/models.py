@@ -35,8 +35,7 @@ class Course(BaseModel):
 
     is_classics = models.BooleanField(default=False, verbose_name="是否经典")
 
-    #
-    # is_banner = models.BooleanField(default=False, verbose_name="是否广告位")
+    is_banner = models.BooleanField(default=False, verbose_name="是否广告位")
 
     class Meta:
         verbose_name = "课程信息"
