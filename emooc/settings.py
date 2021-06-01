@@ -22,9 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'eqzk%$aa^(pcy2zp)wuw56*10e*wwapy#a(l=ss#vh(os54ou7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 # 自定义验证模块
 AUTHENTICATION_BACKENDS = [
@@ -130,8 +130,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)  # 本地开发静态文件配置
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # 部署到生产环境中
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)  # 本地开发静态文件配置
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # 部署到生产环境中
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # 上传文件保存位置

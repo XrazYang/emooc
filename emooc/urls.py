@@ -22,7 +22,8 @@ from django.views.static import serve
 import xadmin
 
 from apps.users import urls as users_urls
-from emooc.settings import MEDIA_ROOT, STATIC_ROOT
+from emooc.settings import MEDIA_ROOT
+#from emooc.settings import STATIC_ROOT
 from apps.operation.views import IndexView
 
 urlpatterns = [
@@ -39,5 +40,5 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
 
     url(r'media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),  # 配置上传文件访问
-    url(r'static/(?P<path>.*)$', serve, {'document_root': STATIC_ROOT}),  # 静态文件访问
+    #url(r'static/(?P<path>.*)$', serve, {'document_root': STATIC_ROOT}),  # 静态文件访问
 ]
