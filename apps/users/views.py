@@ -279,7 +279,7 @@ class LoginView(View):
             return HttpResponseRedirect(reverse('index'))
         next = request.GET.get('next', "")
         dynamic_login_form = DynamicLoginForm()
-        hot_courses = Course.objects.order_by("-add_time")[:3]
+        hot_courses = Course.objects.order_by("-click_nums")[:3]
         return render(request, self.html_path,
                       {'dynamic_login_form': dynamic_login_form, 'next': next, 'hot_courses': hot_courses})
 
@@ -306,7 +306,7 @@ class LoginView(View):
 class RegisterView(View):
     def get(self, request, *args, **kwargs):
         register_get_form = RegisterGetForm()
-        hot_courses = Course.objects.order_by("-add_time")[:3]
+        hot_courses = Course.objects.order_by("-click_nums")[:3]
         return render(request, "register.html", {
             "register_get_form": register_get_form,
             "hot_courses": hot_courses
