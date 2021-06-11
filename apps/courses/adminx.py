@@ -5,11 +5,10 @@
 # @Project    :   emooc
 
 import xadmin
+from xadmin.layout import Fieldset, Main, Side, Row
 
 from apps.courses.models import Course, Lesson, Video, CourseResource, CourseTag  # CourseTag,BannerCourse
 
-
-# from xadmin.layout import Fieldset, Main, Side, Row
 
 class GlobalSettings(object):
     site_title = "emooc后台管理"
@@ -53,111 +52,102 @@ class CourseTagAdmin(object):
     list_filter = ['course', 'tag', 'add_time']
 
 
-#
-#
-# class LessonInline(object):
-#     model = Lesson
-#     # style = "tab"
-#     extra = 0
-#     exclude = ["add_time"]
-#
-#
-# class CourseResourceInline(object):
-#     model = CourseResource
-#     style = "tab"
-#     extra = 1
-#
-#
-# class BannerCourseAdmin(object):
-#     list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students']
-#     search_fields = ['name', 'desc', 'detail', 'degree', 'students']
-#     list_filter = ['name', 'teacher__name', 'desc', 'detail', 'degree', 'learn_times', 'students']
-#     list_editable = ["degree", "desc"]
-#
-#     def queryset(self):
-#         qs = super().queryset()
-#         qs = qs.filter(is_banner=True)
-#         return qs
-#
-#
-# from import_export import resources
-#
-#
-# class MyResource(resources.ModelResource):
-#     class Meta:
-#         model = Course
-#         # fields = ('name', 'description',)
-#         # exclude = ()
-#
-#
+class LessonInline(object):
+    model = Lesson
+    # style = "tab"
+    extra = 0
+    exclude = ["add_time"]
+
+
+class CourseResourceInline(object):
+    model = CourseResource
+    style = "tab"
+    extra = 1
+
+
+class BannerCourseAdmin(object):
+    list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students']
+    search_fields = ['name', 'desc', 'detail', 'degree', 'students']
+    list_filter = ['name', 'teacher__name', 'desc', 'detail', 'degree', 'learn_times', 'students']
+    list_editable = ["degree", "desc"]
+
+    def queryset(self):
+        qs = super().queryset()
+        qs = qs.filter(is_banner=True)
+        return qs
+
+
+from import_export import resources
+
+
+class MyResource(resources.ModelResource):
+    class Meta:
+        model = Course
+        # fields = ('name', 'description',)
+        # exclude = ()
+
+
 # # 固定的ip
 # # 1. 本地的ip是一个动态分配的ip地址
 # # 2. 数据包转发问题 scp
-# class NewCourseAdmin(object):
-#     import_export_args = {'import_resource_class': MyResource, 'export_resource_class': MyResource}
-#     list_display = ['name', 'desc', 'show_image', 'go_to', 'detail', 'degree', 'learn_times', 'students']
-#     search_fields = ['name', 'desc', 'detail', 'degree', 'students']
-#     list_filter = ['name', 'teacher__name', 'desc', 'detail', 'degree', 'learn_times', 'students']
-#     list_editable = ["degree", "desc"]
-#     readonly_fields = ["students", "add_time"]
-#     # exclude = ["click_nums", "fav_nums"]
-#     ordering = ["click_nums"]
-#     model_icon = 'fa fa-address-book'
-#     inlines = [LessonInline, CourseResourceInline]
-#     style_fields = {
-#         "detail": "ueditor"
-#     }
-#
-#     def queryset(self):
-#         qs = super().queryset()
-#         if not self.request.user.is_superuser:
-#             qs = qs.filter(teacher=self.request.user.teacher)
-#         return qs
-#
-#     def get_form_layout(self):
-#         if self.org_obj:
-#             self.form_layout = (
-#                 Main(
-#                     Fieldset("讲师信息",
-#                              'teacher', 'course_org',
-#                              css_class='unsort no_title'
-#                              ),
-#                     Fieldset("基本信息",
-#                              'name', 'desc',
-#                              Row('learn_times', 'degree'),
-#                              Row('category', 'tag'),
-#                              'youneed_know', 'teacher_tell', 'detail',
-#                              ),
-#                 ),
-#                 Side(
-#                     Fieldset("访问信息",
-#                              'fav_nums', 'click_nums', 'students', 'add_time'
-#                              ),
-#                 ),
-#                 Side(
-#                     Fieldset("选择信息",
-#                              'is_banner', 'is_classics'
-#                              ),
-#                 )
-#             )
-#         return super(NewCourseAdmin, self).get_form_layout()
-#
-#
-# class CourseTagAdmin(object):
-#     list_display = ['course', 'tag', 'add_time']
-#     search_fields = ['course', 'tag']
-#     list_filter = ['course', 'tag', 'add_time']
+class NewCourseAdmin(object):
+    import_export_args = {'import_resource_class': MyResource, 'export_resource_class': MyResource}
+    list_display = ['name', 'desc', 'show_image', 'go_to', 'detail', 'degree', 'learn_times', 'students']
+    search_fields = ['name', 'desc', 'detail', 'degree', 'students']
+    list_filter = ['name', 'teacher__name', 'desc', 'detail', 'degree', 'learn_times', 'students']
+    list_editable = ["degree", "desc"]
+    readonly_fields = ["students", "add_time"]
+    # exclude = ["click_nums", "fav_nums"]
+    ordering = ["click_nums"]
+    model_icon = 'fa fa-address-book'
+    inlines = [LessonInline, CourseResourceInline]
+    style_fields = {
+        "detail": "ueditor"
+    }
+
+    def queryset(self):
+        qs = super().queryset()
+        if not self.request.user.is_superuser:
+            qs = qs.filter(teacher=self.request.user.teacher)
+        return qs
+
+    def get_form_layout(self):
+        if self.org_obj:
+            self.form_layout = (
+                Main(
+                    Fieldset("讲师信息",
+                             'teacher', 'course_org',
+                             css_class='unsort no_title'
+                             ),
+                    Fieldset("基本信息",
+                             'name', 'desc',
+                             Row('learn_times', 'degree'),
+                             Row('category', 'tag'),
+                             'youneed_know', 'teacher_tell', 'detail',
+                             ),
+                ),
+                Side(
+                    Fieldset("访问信息",
+                             'fav_nums', 'click_nums', 'students', 'add_time'
+                             ),
+                ),
+                Side(
+                    Fieldset("选择信息",
+                             'is_banner', 'is_classics'
+                             ),
+                )
+            )
+        return super(NewCourseAdmin, self).get_form_layout()
 
 
-xadmin.site.register(Course, CourseAdmin)
+# xadmin.site.register(Course, CourseAdmin)
 xadmin.site.register(Lesson, LessonAdmin)
 xadmin.site.register(Video, VideoAdmin)
 xadmin.site.register(CourseResource, CourseResourceAdmin)
 xadmin.site.register(CourseTag, CourseTagAdmin)
 
 # xadmin.site.register(BannerCourse, BannerCourseAdmin)
-# xadmin.site.register(Course, NewCourseAdmin)
-# xadmin.site.register(CourseTag, CourseTagAdmin)
-#
+xadmin.site.register(Course, NewCourseAdmin)
+
 xadmin.site.register(xadmin.views.CommAdminView, GlobalSettings)
 xadmin.site.register(xadmin.views.BaseAdminView, BaseSettings)
