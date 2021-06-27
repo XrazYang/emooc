@@ -1,4 +1,5 @@
 from django.db import models
+from DjangoUeditor.models import UEditorField
 
 from apps.users.models import BaseModel
 from apps.organization.models import Teacher, CourseOrg
@@ -24,10 +25,10 @@ class Course(BaseModel):
     notice = models.CharField(verbose_name="课程公告", max_length=300, default="")
 
     image = models.ImageField(upload_to="courses/%Y/%m", verbose_name="封面图", max_length=100)
-    detail = models.TextField(verbose_name='课程详情')
+    # detail = models.TextField(verbose_name='课程详情')
 
-    # detail = UEditorField(verbose_name="课程详情", width=600, height=300, imagePath="courses/ueditor/images/",
-    #                      filePath="courses/ueditor/files/", default="")
+    detail = UEditorField(verbose_name="课程详情", width=600, height=300, imagePath="courses/ueditor/images/",
+                          filePath="courses/ueditor/files/", default="")
 
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name="讲师")
 

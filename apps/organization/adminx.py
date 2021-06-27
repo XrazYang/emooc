@@ -19,9 +19,9 @@ class CourseOrgAdmin(object):
     list_display = ['name', 'desc', 'click_nums', 'fav_nums']
     search_fields = ['name', 'desc', 'click_nums', 'fav_nums']
     list_filter = ['name', 'desc', 'click_nums', 'fav_nums']
-    # style_fields = {
-    #     "desc": "ueditor"
-    # }
+    style_fields = {
+        "desc": "ueditor"
+    }
 
 
 class CityAdmin(object):

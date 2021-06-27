@@ -1,4 +1,3 @@
-
 PLUGINS = (
     'actions',
     'filters',
@@ -28,7 +27,8 @@ PLUGINS = (
     'language',
     'quickfilter',
     'sortablelist',
-    'importexport'
+    'importexport',
+    'ueditor',
 )
 
 

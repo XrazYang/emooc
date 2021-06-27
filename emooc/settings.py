@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'xadmin',
     'captcha',
     'pure_pagination',
+    'DjangoUeditor',
 ]
 
 MIDDLEWARE = [

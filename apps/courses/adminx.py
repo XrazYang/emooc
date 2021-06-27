@@ -101,6 +101,7 @@ class NewCourseAdmin(object):
     ordering = ["click_nums"]
     model_icon = 'fa fa-address-book'
     inlines = [LessonInline, CourseResourceInline]
+
     style_fields = {
         "detail": "ueditor"
     }

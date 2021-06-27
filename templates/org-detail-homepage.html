@@ -184,7 +184,7 @@
                 <a class="green fr more" href="{% url 'org:org_desc' course_org.id %}">查看更多 > </a>
             </div>
             <div class="cont">&nbsp; &nbsp; <p>&nbsp; &nbsp;</p>
-                {{ course_org.desc }}
+                {% autoescape off %} {{ course_org.desc }}{% endautoescape %}
             </div>
         </div>
 
